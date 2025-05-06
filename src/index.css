@@ -1,4 +1,3 @@
-
 .step-circle {
   width: 30px;
   height: 30px;
@@ -25,6 +24,23 @@
 .custom-quill-editor .ql-editor {
   padding-top: 30px; 
   padding-bottom: 30px;
+}
+
+/* Switch CSS */
+.btn-outline-secondary{
+  border-color: gainsboro !important;
+}
+
+.no-border{
+  border-right: none;
+}
+
+.no-border-left{
+  border-left: none;
+}
+
+span {
+  border-color: gainsboro;
 }
 
 

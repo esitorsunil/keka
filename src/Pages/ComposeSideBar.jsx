@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { addField } from '../redux/placeholderSlice'; // Update this path based on your project
+import { addField } from '../redux/placeholderSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ComposeSidebar = () => {
@@ -51,7 +51,7 @@ const ComposeSidebar = () => {
   };
 
   const handleFieldClick = (label, value) => {
-    console.log(value); // ✅ Logs only the value (e.g., EMP12345)
+    console.log(value); 
     dispatch(addField({ label, value }));
     localStorage.setItem('selectedField', JSON.stringify({ label, value }));
   };
@@ -103,10 +103,10 @@ const ComposeSidebar = () => {
                     style={{ fontSize: '14px', cursor: 'pointer' }}
                     onClick={() => handleFieldClick(key, value)}
                   > 
-                   {/* Check Icon */}
+
     <i
       className="bi bi-check-circle"
-      style={{ marginRight: '8px' }} // Space between icon and text
+      style={{ marginRight: '8px' }} 
     ></i>
                     {key}
                   </p>
