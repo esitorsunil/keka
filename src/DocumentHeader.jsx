@@ -26,7 +26,7 @@ const DocumentHeader = () => {
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
-    }, 5000); // Hide toast after 5 seconds
+    }, 5000); 
   };
 
   const handleCancel = () => {
@@ -43,13 +43,13 @@ const DocumentHeader = () => {
 
   return (
     <>
-      <div className="shadow mb-5 bg-body-tertiary rounded">
+      <div className="shadow bg-body-tertiary rounded" style={{ position: 'sticky', top: 0, zIndex: 1 }}>
         <div className="d-flex justify-content-between align-items-center border-bottom px-4 py-3">
           <h5 className="mb-0 fw-semibold">Document template</h5>
           <i className="bi bi-x-lg fs-5" role="button"></i>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center my-3 p-3">
+        <div className="d-flex justify-content-between align-items-center p-3">
           <ol className="d-flex list-unstyled m-0 justify-content-center flex-grow-1 custom-gap">
             <li className="d-flex align-items-center gap-2">
               <span
@@ -101,7 +101,6 @@ const DocumentHeader = () => {
         </div>
       </div>
 
-      {/* Bootstrap Toast component */}
       {showToast && (
         <div className="toast show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert" aria-live="assertive" aria-atomic="true">
           <div className="toast-header">

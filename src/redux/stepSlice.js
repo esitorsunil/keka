@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentStep: 1, // 1 = Setup, 2 = Compose, 3 = Finalize
+  currentStep: 1, 
 };
 
 const stepSlice = createSlice({

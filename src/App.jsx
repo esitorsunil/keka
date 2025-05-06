@@ -1,21 +1,18 @@
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DocumentHeader from './DocumentHeader';
 import HomePage from './HomePage';
-
-const Setup = () => <><DocumentHeader /><h2 className="text-center">Setup Page</h2></>;
-const Compose = () => <><DocumentHeader /><h2 className="text-center">Compose Page</h2></>;
-const Finalize = () => <><DocumentHeader /><h2 className="text-center">Finalize Page</h2></>;
+import SetupPage from './Pages/SetupPage';
+import ComposePage from './Pages/ComposePage';
+import FinalizePage from './Pages/FinalizePage';
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/setup" element={<Setup />} />
-        <Route path="/compose" element={<Compose />} />
-        <Route path="/finalize" element={<Finalize />} />
+        <Route path="/setup" element={<SetupPage />} />
+        <Route path="/compose" element={<ComposePage />} />
+        <Route path="/finalize" element={<FinalizePage />} />
       </Routes>
     </Router>
   );
