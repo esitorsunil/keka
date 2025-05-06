@@ -1,85 +1,84 @@
 {
-    "employee": {
-      "basicInfo": {
-        "employeeNumber": "EMP12345",
-        "firstName": "John",
-        "middleName": "A.",
-        "lastName": "Doe",
-        "displayName": "John Doe",
-        "fullName": "John A. Doe"
-      },
-      "profile": {
-        "profileImage": "http://localhost:3000/images/john.jpg",
-        "department": "Engineering",
-        "designation": "Senior Software Engineer",
-        "location": "Bangalore",
-        "status": "Active",
-        "joiningDate": "2021-03-15"
-      },
-      "contactInfo": {
-        "email": "john.doe@example.com",
-        "phone": "+91-9876543210",
-        "alternatePhone": "+91-9988776655",
-        "address": {
-          "line1": "123 MG Road",
-          "line2": "Near City Mall",
-          "city": "Bangalore",
-          "state": "Karnataka",
-          "country": "India",
-          "zipCode": "560001"
-        }
-      },
-      "jobInfo": {
-        "employeeType": "Full-time",
-        "workLocation": "Remote",
-        "shift": "General",
-        "manager": "Jane Smith",
-        "team": "Product Development",
-        "grade": "G4",
-        "workEmail": "john.doe@company.com"
-      },
-      "personalInfo": {
-        "dob": "1990-07-20",
-        "gender": "Male",
-        "bloodGroup": "O+",
-        "maritalStatus": "Married",
-        "nationality": "Indian",
-        "aadhaar": "1234-5678-9012",
-        "pan": "ABCDE1234F"
-      },
-      "salaryInfo": {
-        "ctc": 1200000,
-        "monthlySalary": 100000,
-        "currency": "INR",
-        "payGrade": "Grade 4",
-        "bankAccount": {
-          "bankName": "HDFC Bank",
-          "accountNumber": "123456789012",
-          "ifsc": "HDFC0001234"
-        }
-      },
-      "documents": [
-        {
-          "type": "Resume",
-          "fileName": "john_resume.pdf",
-          "uploadedOn": "2021-03-10"
-        },
-        {
-          "type": "Offer Letter",
-          "fileName": "john_offer_letter.pdf",
-          "uploadedOn": "2021-03-12"
-        },
-        {
-          "type": "ID Proof",
-          "fileName": "john_aadhaar_card.jpg",
-          "uploadedOn": "2021-03-13"
-        }
-      ],
-      "filters": {
-        "location": "Bangalore",
-        "department": "Engineering",
-        "status": "Active"
+  "employee": {
+    "basicInfo": {
+      "employeeNumber": "EMP12345",
+      "firstName": "John",
+      "middleName": "A.",
+      "lastName": "Doe",
+      "displayName": "John Doe",
+      "fullName": "John A. Doe"
+    },
+    "profile": {
+      "profileImage": "http://localhost:3000/images/john.jpg",
+      "department": "Engineering",
+      "designation": "Senior Software Engineer",
+      "location": "Bangalore",
+      "status": "Active",
+      "joiningDate": "2021-03-15"
+    },
+    "contactInfo": {
+      "email": "john.doe@example.com",
+      "phone": "+91-9876543210",
+      "alternatePhone": "+91-9988776655",
+      "address": {
+        "line1": "123 MG Road",
+        "line2": "Near City Mall",
+        "city": "Bangalore",
+        "state": "Karnataka",
+        "country": "India",
+        "zipCode": "560001"
       }
+    },
+    "jobInfo": {
+      "employeeType": "Full-time",
+      "workLocation": "Remote",
+      "shift": "General",
+      "manager": "Jane Smith",
+      "team": "Product Development",
+      "grade": "G4",
+      "workEmail": "john.doe@company.com"
+    },
+    "personalInfo": {
+      "dob": "1990-07-20",
+      "gender": "Male",
+      "bloodGroup": "O+",
+      "maritalStatus": "Married",
+      "nationality": "Indian",
+      "aadhaar": "1234-5678-9012",
+      "pan": "ABCDE1234F"
+    },
+    "salaryInfo": {
+      "ctc": 1200000,
+      "monthlySalary": 100000,
+      "currency": "INR",
+      "payGrade": "Grade 4",
+      "bankAccount": {
+        "bankName": "HDFC Bank",
+        "accountNumber": "123456789012",
+        "ifsc": "HDFC0001234"
+      }
+    },
+    "documents": [
+      {
+        "type": "Resume",
+        "fileName": "john_resume.pdf",
+        "uploadedOn": "2021-03-10"
+      },
+      {
+        "type": "Offer Letter",
+        "fileName": "john_offer_letter.pdf",
+        "uploadedOn": "2021-03-12"
+      },
+      {
+        "type": "ID Proof",
+        "fileName": "john_aadhaar_card.jpg",
+        "uploadedOn": "2021-03-13"
+      }
+    ],
+    "filters": {
+      "location": "Bangalore",
+      "department": "Engineering",
+      "status": "Active"
     }
   }
-  
+}
