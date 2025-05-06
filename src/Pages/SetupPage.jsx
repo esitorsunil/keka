@@ -18,7 +18,7 @@ const Setup = () => {
     <>
       <DocumentHeader />
 
-      <div className="ms-4">
+      <div className="ms-4 mt-4 py-3">
         <div className="d-flex justify-content-start">
           <div style={{ width: '40%' }}>
 

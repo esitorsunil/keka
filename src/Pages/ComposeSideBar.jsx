@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaInfoCircle, FaSearch, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const fieldSections = [
@@ -22,31 +22,40 @@ const ComposeSidebar = () => {
   };
 
   return (
-    <div className="shadow bg-body-tertiary rounded bg-light p-3 border-end z-1" style={{ width: '300px', height: '100vh', overflowY: 'auto' }}>
+    <div className=" p-3 border-end" style={{ width: '300px', height: '100vh', overflowY: 'auto', zIndex: 0}}>
       
-      {/* Placeholder Fields Heading */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <strong>Placeholder Fields</strong>
-        <FaInfoCircle className="text-muted" />
+  
+      <div className="d-flex justify-content-between align-items-center mt-3">
+        <p className=" fw-semibold">Placeholder Fields    <i class="bi bi-info-circle mb-1 ms-2"></i></p>
+     
       </div>
 
-      {/* Search bar */}
+  
       <div className="input-group mb-4">
-        <span className="input-group-text"><FaSearch /></span>
+      <span className="input-group-text bg-transparent border-end-0">
+        <i className="bi bi-search text-muted"></i>
+       </span>
         <input
-          type="text"
-          className="form-control"
-          placeholder="Search fields..."
+         type="text"
+         className="form-control border-start-0"
+         placeholder="Search fields..."
         />
       </div>
 
-      {/* Autocomplete Fields Heading */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <strong>Autocomplete Fields</strong>
-        <FaInfoCircle className="text-muted" />
-      </div>
+      <div
+  className="d-flex justify-content-between align-items-center mb-3 border border-bottom shadow-sm p-2"
+  style={{
+    borderBottom: '1px solid var(--bs-border-color-translucent)',
+    backgroundColor: 'var(--bs-secondary-bg)'
+  }}
+>
+  <p className="text-xs fw-semibold m-0" style={{ fontSize: '12px' }}>
+    AUTO COMPLETE FIELDS
+    <i className="bi bi-info-circle ms-2"></i>
+  </p>
+</div>
 
-      {/* Expandable Field Sections */}
+
       {fieldSections.map(section => (
         <div key={section} className="mb-2">
           <div
