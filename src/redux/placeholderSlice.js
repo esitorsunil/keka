@@ -1,14 +1,14 @@
-// placeholderSlice.js
+// store/placeholderSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const placeholderSlice = createSlice({
   name: 'placeholders',
   initialState: {
-    latestField: null,
+    selectedField: null,
   },
   reducers: {
     addField: (state, action) => {
-      state.latestField = action.payload; // only latest clicked
+      state.selectedField = action.payload;
     },
   },
 });

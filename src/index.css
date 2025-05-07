@@ -20,13 +20,11 @@
   gap: 7rem;
 }
 
-
 .custom-quill-editor .ql-editor {
   padding-top: 30px; 
   padding-bottom: 30px;
 }
 
-/* Switch CSS */
 .btn-outline-secondary{
   border-color: gainsboro !important;
 }
@@ -68,3 +66,5 @@ span {
 .border-top{
   background-color: var(--bs-light);
 }
+
+

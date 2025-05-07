@@ -4,9 +4,7 @@ import DocumentHeader from '../DocumentHeader';
 const FinalizePage = () => {
   return (
     <>
-      <DocumentHeader />
-      <h2 className="text-center">Finalize Page</h2>
-
+      <DocumentHeader />  
     </>
   );
 };

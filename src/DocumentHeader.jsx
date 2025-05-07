@@ -1,44 +1,35 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { setStep } from './redux/stepSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DocumentHeader = () => {
-  const { currentStep } = useSelector((state) => state.step);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [showToast, setShowToast] = useState(false);
 
+  const getStepFromPath = (path) => {
+    if (path === '/setup') return 1;
+    if (path === '/compose') return 2;
+    if (path === '/finalize') return 3;
+    return 1;
+  };
+
+  const currentStep = getStepFromPath(location.pathname);
+
   const handleContinue = () => {
-    if (location.pathname === '/setup') {
-      dispatch(setStep(2));
-      navigate('/compose');
-    } else if (location.pathname === '/compose') {
-      dispatch(setStep(3));
-      navigate('/finalize');
-    }
+    if (currentStep === 1) navigate('/compose');
+    else if (currentStep === 2) navigate('/finalize');
+  };
+
+  const handleCancel = () => {
+    if (currentStep === 1) navigate('/');
+    else if (currentStep === 2) navigate('/setup');
+    else if (currentStep === 3) navigate('/compose');
   };
 
   const handleSave = () => {
     setShowToast(true);
-    setTimeout(() => {
-      setShowToast(false);
-    }, 5000); 
-  };
-
-  const handleCancel = () => {
-    if (location.pathname === '/setup') {
-      navigate('/');
-    } else if (location.pathname === '/compose') {
-      dispatch(setStep(1));
-      navigate('/setup');
-    } else if (location.pathname === '/finalize') {
-      dispatch(setStep(2));
-      navigate('/compose');
-    }
+    setTimeout(() => setShowToast(false), 5000);
   };
 
   return (
@@ -51,48 +42,47 @@ const DocumentHeader = () => {
 
         <div className="d-flex justify-content-between align-items-center p-3">
           <ol className="d-flex list-unstyled m-0 justify-content-center flex-grow-1 custom-gap">
-            <li className="d-flex align-items-center gap-2">
-              <span
-                className={`step-circle ${currentStep === 1 ? 'bg-indigo-500 text-white' : 'bg-white text-primary border border-primary'}`}
-              >
-                1
-              </span>
-              <span className={`${currentStep === 1 ? 'text-indigo-500 fw-semibold' : 'text-indigo-400'}`}>SETUP</span>
-            </li>
-            <li className="d-flex align-items-center gap-2">
-              <span
-                className={`step-circle ${currentStep === 2 ? 'bg-indigo-500 text-white' : 'bg-white text-primary border border-primary'}`}
-              >
-                2
-              </span>
-              <span className={`${currentStep === 2 ? 'text-indigo-500 fw-semibold' : 'text-indigo-400'}`}>COMPOSE</span>
-            </li>
-            <li className="d-flex align-items-center gap-2">
-              <span
-                className={`step-circle ${currentStep === 3 ? 'bg-indigo-500 text-white' : 'bg-white text-primary border border-primary'}`}
-              >
-                3
-              </span>
-              <span className={`${currentStep === 3 ? 'text-indigo-500 fw-semibold' : 'text-indigo-400'}`}>FINALIZE</span>
-            </li>
+            {[1, 2, 3].map((step) => {
+              const labels = ['SETUP', 'COMPOSE', 'FINALIZE'];
+              return (
+                <li key={step} className="d-flex align-items-center gap-2">
+                  <span
+                    className={`step-circle ${
+                      currentStep === step
+                        ? 'bg-indigo-500 text-white'
+                        : 'bg-white text-primary border border-primary'
+                    }`}
+                  >
+                    {step}
+                  </span>
+                  <span
+                    className={`${
+                      currentStep === step ? 'text-indigo-500 fw-semibold' : 'text-indigo-400'
+                    }`}
+                  >
+                    {labels[step - 1]}
+                  </span>
+                </li>
+              );
+            })}
           </ol>
 
           <div className="d-flex gap-3 ml-auto">
             {currentStep === 3 ? (
               <>
-                <button type="button" className="btn btn-light border border-black-200 px-4" onClick={handleCancel}>
+                <button className="btn btn-light border px-4" onClick={handleCancel}>
                   Back
                 </button>
-                <button type="button" className="btn btn-primary px-4" onClick={handleSave}>
+                <button className="btn btn-primary px-4" onClick={handleSave}>
                   Save Template
                 </button>
               </>
             ) : (
               <>
-                <button type="button" className="btn btn-light border border-black-200 px-4" onClick={handleCancel}>
+                <button className="btn btn-light border px-4" onClick={handleCancel}>
                   Cancel
                 </button>
-                <button type="button" className="btn btn-primary px-4" onClick={handleContinue}>
+                <button className="btn btn-primary px-4" onClick={handleContinue}>
                   Continue
                 </button>
               </>
@@ -102,14 +92,12 @@ const DocumentHeader = () => {
       </div>
 
       {showToast && (
-        <div className="toast show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert" aria-live="assertive" aria-atomic="true">
+        <div className="toast show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert">
           <div className="toast-header">
             <strong className="me-auto">Success</strong>
-            <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            <button type="button" className="btn-close" onClick={() => setShowToast(false)} />
           </div>
-          <div className="toast-body">
-            Document saved successfully!
-          </div>
+          <div className="toast-body">Document saved successfully!</div>
         </div>
       )}
     </>
