@@ -50,3 +50,21 @@ span {
   padding: 8px;
   border-radius: 4px;
 }
+
+#toolbar-container {
+  border: none !important;
+}
+
+.ql-container {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.custom-shadow {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  
+}
+
+.border-top{
+  background-color: var(--bs-light);
+}

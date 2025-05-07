@@ -1,7 +1,7 @@
 {
   "employee": {
     "basicInfo": {
-      "employeeNumber": "EMP12345",
+      "EmployeeNumber": "EMP12345",
       "firstName": "John",
       "middleName": "A.",
       "lastName": "Doe",

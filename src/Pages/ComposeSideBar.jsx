@@ -52,50 +52,7 @@ const ComposeSidebar = () => {
 
   
   const handleFieldClick = (label, value) => {
-    // Remove {{ }} brackets from the label
-    const cleanedLabel = label.replace(/{{|}}/g, '').trim();
-  
-    // Create a styled HTML string with the icon, border, padding, and spacing
-    const tagHTML = `
-      <span 
-        contenteditable="false"
-        style="
-          display: inline-flex;
-          align-items: center;
-          padding: 2px 8px;
-          border: 1px solid #ced4da;
-          border-radius: 12px;
-          background-color: #f8f9fa;
-          margin-right: 6px;
-        ">
-        <i class="bi bi-check-circle me-1 text-primary"></i>${cleanedLabel}
-      </span>&nbsp;
-    `;
-  
-    // Access the Quill editor instance
-    const quill = window.quillEditorRef;
-  
-    if (quill) {
-      // Get the current cursor position or selection in the editor
-      const range = quill.getSelection(true);
-  
-      // Check if the label already exists at the current cursor position
-      const currentText = quill.getText(range.index, range.length).trim();
-  
-      // Only insert the tag if it's not already inserted at the cursor position
-      if (currentText !== cleanedLabel) {
-        // Insert the custom HTML at the current cursor position
-        quill.clipboard.dangerouslyPasteHTML(range.index, tagHTML);
-  
-        // Move the cursor after the inserted content
-        quill.setSelection(range.index + tagHTML.length);
-      } else {
-        console.log('Tag already inserted.');
-      }
-    } else {
-      console.error('Quill editor is not available');
-    }
-  
+    
     // Dispatch the action to update the Redux store
     dispatch(addField({ label, value }));
   };

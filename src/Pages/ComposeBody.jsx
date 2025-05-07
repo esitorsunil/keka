@@ -12,20 +12,15 @@ const ComposeBody = () => {
   const latestField = useSelector((state) => state.placeholders.latestField);
   
 
-  useEffect(() => {
-    if (quillRef.current) {
-      window.quillEditorRef = quillRef.current.getEditor();  // Assign the Quill editor instance
-      console.log('Quill editor initialized and assigned');
-    }
-  }, [quillRef]); 
+  
    // Append new fields into editor
  
-   useEffect(() => {
+  useEffect(() => {
     if (!quillRef.current || !latestField) return;
-  
+
     const editor = quillRef.current.getEditor();
     const cursorPosition = editor.getSelection()?.index || editor.getLength();
-  
+
     editor.insertText(cursorPosition, `{{${latestField.label}}} `);
     editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
     editor.focus();
@@ -45,24 +40,25 @@ const ComposeBody = () => {
   };
 
   const formats = [
-    'header', 'size',
+    'image','header', 'size',
     'bold', 'italic', 'underline',
     'list', 'bullet',
     'align',
-    'link', 'image'
+    'link'
   ];
 
   return (
-    <div className="container mt-3" style={{ marginRight: '320px' }}>
-      <div className="row">
+    <>
+    <div className="container mt-3 " style={{ marginRight: '320px' }}>
+      <div className="row border-bottom pb-4">
         <div className="col-12 d-flex justify-content-between align-items-center">
-          <h3 className="mb-0">
+          <h3 className="mb-0 ps-3">
             Simple web editor
             <span className='fs-6 text-secondary d-block'>
               Use the built-in web editor to compose your document
             </span>
           </h3>
-          <div className="btn-group" role="group" aria-label="Editor toggle">
+          <div className="btn-group pe-3" role="group" aria-label="Editor toggle">
             <button
               type="button"
               className={`btn ${activeEditor === 'web' ? 'text-primary border-primary' : 'btn-outline-secondary text-black no-border'}`}
@@ -81,11 +77,13 @@ const ComposeBody = () => {
         </div>
       </div>
 
-      <div id="toolbar-container" className="mt-3 d-flex flex-wrap gap-2 p-2 bg-light rounded">
+      <div id="toolbar-container" className="d-flex flex-wrap gap-2 p-3 rounded">
+      <button className="ql-image" />
         <select className="ql-header" defaultValue="">
+       
           <option value="1">Heading 1</option>
           <option value="2">Heading 2</option>
-          <option value="">Normal</option>
+          <option value="">Paragraph</option>
         </select>
         <select className="ql-size" defaultValue="medium">
           <option value="small" />
@@ -93,6 +91,7 @@ const ComposeBody = () => {
           <option value="large" />
           <option value="huge" />
         </select>
+        
         <button className="ql-bold" />
         <button className="ql-italic" />
         <button className="ql-underline" />
@@ -103,23 +102,28 @@ const ComposeBody = () => {
         <button className="ql-align" value="right" />
         <button className="ql-align" value="justify" />
         <button className="ql-link" />
-        <button className="ql-image" />
+        
         <button className="ql-undo"><i className="bi bi-arrow-counterclockwise" /></button>
         <button className="ql-redo"><i className="bi bi-arrow-clockwise" /></button>
       </div>
-
-      <div className="mt-2">
-        <ReactQuill
-          ref={quillRef}
-          theme="snow"
-          value={content}
-          onChange={setContent}
-          modules={modules}
-          formats={formats}
-          style={{ height: '400px', backgroundColor: 'white' }}
-        />
       </div>
-    </div>
+      <div className="d-flex justify-content-center border-top ">
+  <div
+    className="custom-shadow rounded p-2 mt-5"
+    style={{ width: '100%', maxWidth: '1050px', backgroundColor: 'white' }}
+  >
+    <ReactQuill
+      ref={quillRef}
+      theme="snow"
+      value={content}
+      onChange={setContent}
+      modules={modules}
+      formats={formats}
+      style={{ height: '600px'}}
+    />
+  </div>
+</div>
+    </>
   );
 };
 

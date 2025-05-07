@@ -12,7 +12,7 @@ const ComposePage = () => {
         <div style={{ width: '300px', borderRight: '1px solid #ddd' }}>
           <ComposeSidebar />
         </div>
-        <div className="flex-grow-1 p-3" style={{ borderRight: '1px solid #ddd' }}>
+        <div className="flex-grow-1 pt-3" style={{ borderRight: '1px solid #ddd' }}>
           <ComposeBody />
         </div>
         <div style={{ width: '300px', borderRight: '1px solid #ddd' }}>
