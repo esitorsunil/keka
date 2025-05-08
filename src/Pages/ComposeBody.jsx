@@ -10,12 +10,23 @@ const ComposeBody = () => {
   const quillRef = useRef(null);
   const latestField = useSelector((state) => state.placeholders.selectedField);
 
+
   useEffect(() => {
     if (!quillRef.current || !latestField) return;
+  
     const editor = quillRef.current.getEditor();
     const cursorPosition = editor.getSelection()?.index || editor.getLength();
   
-    editor.insertText(cursorPosition, `${latestField.label} `);
+    editor.updateContents(
+      {
+        ops: [
+          { retain: cursorPosition },
+          { insert: `${latestField.label} ` }
+        ]
+      },
+      'user' 
+    );
+  
     editor.setSelection(cursorPosition + `${latestField.label} `.length);
     editor.focus();
   }, [latestField]);
@@ -48,6 +59,14 @@ const ComposeBody = () => {
 
   return (
     <>
+    <style>
+    {`
+      .ql-container {
+        border: none !important;
+        box-shadow: none !important;
+      }
+    `}
+  </style>
       <div className="container mt-3" style={{ marginRight: '320px' }}>
         <div className="row border-bottom pb-4">
           <div className="col-12 d-flex justify-content-between align-items-center">
@@ -60,14 +79,14 @@ const ComposeBody = () => {
             <div className="btn-group pe-3" role="group" aria-label="Editor toggle">
               <button
                 type="button"
-                className={`btn ${activeEditor === 'web' ? 'text-primary border-primary' : 'btn-outline-secondary text-black no-border'}`}
+                className={`btn ${activeEditor === 'web' ? 'text-primary border-primary bg-body-tertiary ' : 'btn-outline-secondary text-black no-border'}`}
                 onClick={() => setActiveEditor('web')}
               >
                 Web Editor
               </button>
               <button
                 type="button"
-                className={`btn ${activeEditor === 'msword' ? 'text-primary border-primary' : 'btn-outline-secondary text-black no-border-left'}`}
+                className={`btn ${activeEditor === 'msword' ? 'text-primary border-primary bg-body-tertiary' : 'btn-outline-secondary text-black no-border-left'}`}
                 onClick={() => setActiveEditor('msword')}
               >
                 MS Word

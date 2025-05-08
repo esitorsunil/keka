@@ -45,12 +45,12 @@ const Setup = () => {
                 placeholder="Write your description here..." 
               />
 
-              <div id="toolbar">
+              <div id="toolbar" className="border-top-0">
                 <span className="ql-formats">
                   <button className="ql-bold" />
                   <button className="ql-italic" />
                   <button className="ql-underline" />
-                  <button className="ql-image" />
+                  <button className="ql-link" />
                 </span>
               </div>
             </div>
