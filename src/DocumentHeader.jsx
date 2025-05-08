@@ -30,23 +30,18 @@ const DocumentHeader = () => {
   };
 
   const handleCancel = () => {
+    // Save the editor content to localStorage before navigating
+    const editor = quillRef.current?.getEditor();
+    if (editor) {
+      const htmlContent = editor.root.innerHTML;
+      localStorage.setItem('htmlContent', htmlContent);
+    }
+
     if (currentStep === 1) {
       navigate('/');
     } else if (currentStep === 2) {
-      // Save the editor content to localStorage before navigating
-      const editor = quillRef.current?.getEditor();
-      if (editor) {
-        const htmlContent = editor.root.innerHTML;
-        localStorage.setItem('htmlContent', htmlContent);
-      }
       navigate('/setup');
     } else if (currentStep === 3) {
-      // Save the editor content to localStorage before navigating
-      const editor = quillRef.current?.getEditor();
-      if (editor) {
-        const htmlContent = editor.root.innerHTML;
-        localStorage.setItem('htmlContent', htmlContent);
-      }
       navigate('/compose');
     }
   };
@@ -55,6 +50,28 @@ const DocumentHeader = () => {
     setShowToast(true);
     setTimeout(() => setShowToast(false), 5000);
   };
+
+  // Load content from localStorage when the component is mounted (for Compose page)
+  useEffect(() => {
+    if (currentStep === 2) {
+      const savedHtml = localStorage.getItem('htmlContent');
+      if (savedHtml && quillRef.current) {
+        const editor = quillRef.current.getEditor();
+        editor.root.innerHTML = savedHtml;
+      }
+    }
+  }, [currentStep]);
+
+  // Auto-save content on every change in Quill editor (important for preserving changes)
+  useEffect(() => {
+    const editor = quillRef.current?.getEditor();
+    if (editor) {
+      editor.on('text-change', () => {
+        const htmlContent = editor.root.innerHTML;
+        localStorage.setItem('htmlContent', htmlContent);
+      });
+    }
+  }, []);
 
   return (
     <>

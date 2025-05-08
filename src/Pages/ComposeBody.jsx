@@ -2,56 +2,50 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearField } from '../redux/placeholderSlice';
+import { useSelector } from 'react-redux';
 
 const ComposeBody = () => {
   const [activeEditor, setActiveEditor] = useState('web');
   const [content, setContent] = useState('');
+  const [previewContent, setPreviewContent] = useState('');
   const quillRef = useRef(null);
-  const dispatch = useDispatch();
-  const latestField = useSelector((state) => state.placeholders.selectedField);
 
-  useEffect(() => {
-    const savedContent = localStorage.getItem('htmlContent');
-    if (savedContent && quillRef.current) {
-      const editor = quillRef.current.getEditor();
-      if (editor) {
-        // Only restore content if it's not already there
-        if (editor.root.innerHTML === '<p><br></p>' || editor.root.innerHTML === '') {
-          editor.root.innerHTML = savedContent;
-        }
-      }
-    }
-  }, []);
+  // Get all selected fields from Redux
+  const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
-
-  useEffect(() => {
-    if (!quillRef.current || !latestField) return;
+  // Insert only the latest placeholder into the editor when a new one is added
   
+
+  useEffect(() => {
+    if (!quillRef.current || selectedFields.length === 0) return;
+  
+    const latestField = selectedFields[selectedFields.length - 1]; // Most recent field
     const editor = quillRef.current.getEditor();
     const cursorPosition = editor.getSelection()?.index || editor.getLength();
   
-    const placeholderToken = `{{${latestField.label}}}`;
+    editor.updateContents(
+      {
+        ops: [
+          { retain: cursorPosition },
+          { insert: `{{${latestField.label}}} ` }
+        ]
+      },
+      'user'
+    );
   
-    // Check to avoid inserting the same placeholder repeatedly
-    if (!editor.getText().includes(placeholderToken)) {
-      editor.updateContents(
-        {
-          ops: [
-            { retain: cursorPosition },
-            { insert: `${placeholderToken} ` },
-          ],
-        },
-        'user'
-      );
-      editor.setSelection(cursorPosition + placeholderToken.length + 1);
-      editor.focus();
+    editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
+    editor.focus();
+  }, [selectedFields]);
+
+  useEffect(() => {
+    const savedHtml = localStorage.getItem('htmlContent');
+    if (savedHtml) {
+      setContent(savedHtml);
+      const replaced = replacePlaceholders(savedHtml);
+      setPreviewContent(replaced);
     }
+  }, []);
   
-    // Clear the field from Redux after use to prevent duplication
-    dispatch(clearField());
-  }, [latestField, dispatch]);
 
   const handleUndo = () => {
     const editor = quillRef.current?.getEditor();
@@ -63,6 +57,25 @@ const ComposeBody = () => {
     if (editor) editor.history.redo();
   };
 
+  // Replace all placeholders with matching values
+  const replacePlaceholders = (htmlContent) => {
+    if (!selectedFields.length) return htmlContent;
+
+    const placeholderRegex = /{{(.*?)}}/g;
+    return htmlContent.replace(placeholderRegex, (_, placeholder) => {
+      const match = selectedFields.find(f => f.label === placeholder.trim());
+      return match ? match.value : `{{${placeholder}}}`;
+    });
+  };
+
+  const handleEditorChange = (value) => {
+    setContent(value);
+    const replacedContent = replacePlaceholders(value);
+    setPreviewContent(replacedContent);
+    localStorage.setItem("htmlContent", value); // Save raw content
+    localStorage.setItem("finalHTML", value);   // Also save to finalHTML here
+  };
+  
   const modules = {
     toolbar: {
       container: '#toolbar-container',
@@ -79,33 +92,6 @@ const ComposeBody = () => {
     'list', 'bullet', 'align', 'link', 'image',
   ];
 
-  const flattenObject = (obj, parentKey = '', result = {}) => {
-    for (const key in obj) {
-      const newKey = parentKey ? `${parentKey}.${key}` : key;
-      if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-        flattenObject(obj[key], newKey, result);
-      } else {
-        result[newKey] = obj[key];
-      }
-    }
-    return result;
-  };
-
-  const replacePlaceholdersWithValues = (htmlContent, flatData) => {
-    return htmlContent.replace(/{{(.*?)}}/g, (_, label) => {
-      const key = Object.keys(flatData).find(
-        (k) => k.toLowerCase().endsWith(label.trim().toLowerCase())
-      );
-      return key ? flatData[key] : `{{${label}}}`;
-    });
-  };
-
-  // Inside onChange of ReactQuill:
-  const handleEditorChange = (value) => {
-    setContent(value); // update local state
-    localStorage.setItem("htmlContent", value); // store raw HTML
-  };
-
   return (
     <>
       <style>
@@ -116,6 +102,7 @@ const ComposeBody = () => {
           }
         `}
       </style>
+
       <div className="container mt-3" style={{ marginRight: '320px' }}>
         <div className="row border-bottom pb-4">
           <div className="col-12 d-flex justify-content-between align-items-center">
@@ -125,7 +112,7 @@ const ComposeBody = () => {
                 Use the built-in web editor to compose your document
               </span>
             </h3>
-            <div className="btn-group pe-3" role="group" aria-label="Editor toggle">
+            <div className="btn-group pe-3" role="group">
               <button
                 type="button"
                 className={`btn ${activeEditor === 'web' ? 'text-primary border-primary bg-body-tertiary ' : 'btn-outline-secondary text-black no-border'}`}
@@ -191,6 +178,21 @@ const ComposeBody = () => {
             formats={formats}
             style={{ height: '600px' }}
           />
+        </div>
+      </div>
+
+
+      <div className="container mt-4">
+        <h4 className="text-center">Live Preview</h4>
+        <div
+          className="card shadow-sm"
+          style={{ backgroundColor: '#f8f9fa', padding: '20px', marginTop: '20px' }}
+        >
+          <div
+            className="preview-content"
+            dangerouslySetInnerHTML={{ __html: previewContent }}
+            style={{ minHeight: '200px' }}
+          ></div>
         </div>
       </div>
     </>

@@ -1,20 +1,20 @@
-// store/placeholderSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
-const placeholderSlice = createSlice({
+const placeholdersSlice = createSlice({
   name: 'placeholders',
   initialState: {
-    selectedField: null,
+    selectedFields: [],
   },
   reducers: {
     addField: (state, action) => {
-      state.selectedField = action.payload;
+      // Always push the new field, even if it's already in the array
+      state.selectedFields.push(action.payload);
     },
-    clearField: (state) => {
-      state.selectedField = null;
+    clearFields: (state) => {
+      state.selectedFields = [];
     },
   },
 });
 
-export const { addField, clearField } = placeholderSlice.actions;
-export default placeholderSlice.reducer;
+export const { addField, clearFields } = placeholdersSlice.actions;
+export default placeholdersSlice.reducer;
