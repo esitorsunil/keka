@@ -54,6 +54,7 @@ const ComposeSidebar = () => {
   const handleFieldClick = (label, value) => {
     dispatch(addField({ label, value }));
   };
+  console.log(handleFieldClick)
  
   return (
     <div className="p-3 border-end" style={{ width: '300px', height: '100vh', overflowY: 'auto', zIndex: 0 }}>

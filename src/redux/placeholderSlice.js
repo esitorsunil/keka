@@ -10,8 +10,11 @@ const placeholderSlice = createSlice({
     addField: (state, action) => {
       state.selectedField = action.payload;
     },
+    clearField: (state) => {
+      state.selectedField = null;
+    },
   },
 });
 
-export const { addField } = placeholderSlice.actions;
+export const { addField, clearField } = placeholderSlice.actions;
 export default placeholderSlice.reducer;

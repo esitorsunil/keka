@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DocumentHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const quillRef = useRef(null); // Declare quillRef
   const [showToast, setShowToast] = useState(false);
 
   const getStepFromPath = (path) => {
@@ -17,14 +18,37 @@ const DocumentHeader = () => {
   const currentStep = getStepFromPath(location.pathname);
 
   const handleContinue = () => {
-    if (currentStep === 1) navigate('/compose');
-    else if (currentStep === 2) navigate('/finalize');
+    if (currentStep === 1) {
+      navigate('/compose');
+    } else if (currentStep === 2) {
+      const htmlContent = localStorage.getItem('htmlContent');
+      if (htmlContent) {
+        localStorage.setItem('finalHTML', htmlContent);
+      }
+      navigate('/finalize');
+    }
   };
 
   const handleCancel = () => {
-    if (currentStep === 1) navigate('/');
-    else if (currentStep === 2) navigate('/setup');
-    else if (currentStep === 3) navigate('/compose');
+    if (currentStep === 1) {
+      navigate('/');
+    } else if (currentStep === 2) {
+      // Save the editor content to localStorage before navigating
+      const editor = quillRef.current?.getEditor();
+      if (editor) {
+        const htmlContent = editor.root.innerHTML;
+        localStorage.setItem('htmlContent', htmlContent);
+      }
+      navigate('/setup');
+    } else if (currentStep === 3) {
+      // Save the editor content to localStorage before navigating
+      const editor = quillRef.current?.getEditor();
+      if (editor) {
+        const htmlContent = editor.root.innerHTML;
+        localStorage.setItem('htmlContent', htmlContent);
+      }
+      navigate('/compose');
+    }
   };
 
   const handleSave = () => {
