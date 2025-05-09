@@ -1,26 +1,39 @@
-import React from 'react'
 
 const Sidebar = () => {
-  return (
-     <div className="bg-dark text-white vh-100 position-fixed" style={{width: '200px', top: '0', left: '0', paddingTop: '100px'}}>
-          <ul className="nav flex-column">
-            <li className="nav-item"><a href="#" className="nav-link text-white">INBOX</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">TIME</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">FINANCES</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">DASHBOARD</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">ORG STRUCTURE</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">EMPLOYEES</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">ENGAGEMENT</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">ONBOARDING</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">EXITS</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">EXPENSES & TRAVEL</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">DOCUMENTS</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">PROJECT</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">ASSETS</a></li>
-            <li className="nav-item"><a href="#" className="nav-link text-white">HELPDESK</a></li>
-          </ul>
-        </div>
-  )
-}
+  const menuItems = [
+    { name: 'Home', icon: 'bi-house' },
+    { name: 'Me', icon: 'bi-person-circle' },
+    { name: 'Inbox', icon: 'bi-inbox' },
+    { name: 'My Team', icon: 'bi-people' },
+    { name: 'My Finances', icon: 'bi-wallet2' },
+    { name: 'Org', icon: 'bi-diagram-3' },
+    { name: 'Engage', icon: 'bi-chat-left-dots' },
+    { name: 'Performance', icon: 'bi-speedometer2' },
+     { name: 'Project', icon: 'bi-kanban' },
+    { name: 'Time', icon: 'bi-clock' }
+  ];
 
-export default Sidebar
+  return (
+    <div
+      className="nav-bg text-white  "
+      style={{ width: '150px', minHeight: "100%",
+        overflowY: "auto",}}
+    >
+
+      {/* Scrollable Sidebar Menu */}
+      <ul
+        className="nav flex-column text-center px-2 "
+       
+      >
+        {menuItems.map((item) => (
+          <li className="nav-item my-3" key={item.name}>
+            <i className={`bi ${item.icon} fs-4 d-block mb-1`}></i>
+            <a href="#" className="nav-link text-white p-0 small">{item.name}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Sidebar;

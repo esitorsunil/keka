@@ -97,3 +97,21 @@ ol.custom-gap .step-circle.bg-white {
   border-color: #6a5acd !important;
   color: #6a5acd;
 }
+
+.nav-link {
+  font-size: 13px;
+  color:  #6c757d
+}
+
+.nav-link:hover {
+  color: black!important;  /* Light gray */
+}
+
+.bi-caret-up-fill {
+  color: #6a5acd;
+}
+
+.nav-bg {
+  background-color: #050536;
+}
+
