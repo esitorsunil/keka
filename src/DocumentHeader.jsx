@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DocumentHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const quillRef = useRef(null); // Declare quillRef
   const [showToast, setShowToast] = useState(false);
+  const quillRef = useRef(null); // Assuming you have a ref for the Quill editor
 
   const getStepFromPath = (path) => {
     if (path === '/setup') return 1;
@@ -21,28 +21,26 @@ const DocumentHeader = () => {
     if (currentStep === 1) {
       navigate('/compose');
     } else if (currentStep === 2) {
+      // htmlContent already holds replaced HTML
       const htmlContent = localStorage.getItem('htmlContent');
-      if (htmlContent) {
-        localStorage.setItem('finalHTML', htmlContent);
-      }
       navigate('/finalize');
     }
   };
 
+  
   const handleCancel = () => {
-    // Save the editor content to localStorage before navigating
     const editor = quillRef.current?.getEditor();
     if (editor) {
-      const htmlContent = editor.root.innerHTML;
-      localStorage.setItem('htmlContent', htmlContent);
+      const htmlContent = editor.root.innerHTML; // Get the editor content (HTML with text and placeholders)
+      localStorage.setItem('htmlContent', htmlContent); // Save the content to localStorage
     }
-
+  
     if (currentStep === 1) {
-      navigate('/');
+      navigate('/'); // Navigate to Setup page
     } else if (currentStep === 2) {
-      navigate('/setup');
+      navigate('/setup'); // Navigate back to Setup
     } else if (currentStep === 3) {
-      navigate('/compose');
+      navigate('/compose'); // Navigate back to Compose
     }
   };
 
@@ -50,28 +48,6 @@ const DocumentHeader = () => {
     setShowToast(true);
     setTimeout(() => setShowToast(false), 5000);
   };
-
-  // Load content from localStorage when the component is mounted (for Compose page)
-  useEffect(() => {
-    if (currentStep === 2) {
-      const savedHtml = localStorage.getItem('htmlContent');
-      if (savedHtml && quillRef.current) {
-        const editor = quillRef.current.getEditor();
-        editor.root.innerHTML = savedHtml;
-      }
-    }
-  }, [currentStep]);
-
-  // Auto-save content on every change in Quill editor (important for preserving changes)
-  useEffect(() => {
-    const editor = quillRef.current?.getEditor();
-    if (editor) {
-      editor.on('text-change', () => {
-        const htmlContent = editor.root.innerHTML;
-        localStorage.setItem('htmlContent', htmlContent);
-      });
-    }
-  }, []);
 
   return (
     <>

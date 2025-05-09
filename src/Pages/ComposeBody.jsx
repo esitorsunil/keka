@@ -14,7 +14,18 @@ const ComposeBody = () => {
   const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
   // Insert only the latest placeholder into the editor when a new one is added
-  
+  useEffect(() => {
+    const savedContent = localStorage.getItem('htmlContent');
+    if (savedContent && quillRef.current) {
+      const editor = quillRef.current.getEditor();
+      if (editor) {
+        // Only restore content if it's not already there
+        if (editor.root.innerHTML === '<p><br></p>' || editor.root.innerHTML === '') {
+          editor.root.innerHTML = savedContent;
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (!quillRef.current || selectedFields.length === 0) return;
@@ -37,14 +48,7 @@ const ComposeBody = () => {
     editor.focus();
   }, [selectedFields]);
 
-  useEffect(() => {
-    const savedHtml = localStorage.getItem('htmlContent');
-    if (savedHtml) {
-      setContent(savedHtml);
-      const replaced = replacePlaceholders(savedHtml);
-      setPreviewContent(replaced);
-    }
-  }, []);
+  
   
 
   const handleUndo = () => {
@@ -70,10 +74,8 @@ const ComposeBody = () => {
 
   const handleEditorChange = (value) => {
     setContent(value);
-    const replacedContent = replacePlaceholders(value);
-    setPreviewContent(replacedContent);
-    localStorage.setItem("htmlContent", value); // Save raw content
-    localStorage.setItem("finalHTML", value);   // Also save to finalHTML here
+    const replaced = replacePlaceholders(value); // your own logic
+    localStorage.setItem("htmlContent", value);
   };
   
   const modules = {

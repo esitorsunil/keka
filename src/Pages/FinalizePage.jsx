@@ -8,7 +8,7 @@ const FinalizePage = () => {
   const quillRef = useRef(null);
 
   useEffect(() => {
-    const savedHtml = localStorage.getItem('finalHTML');
+    const savedHtml = localStorage.getItem("htmlContent");
     if (savedHtml) setContent(savedHtml);
   }, []);
 
