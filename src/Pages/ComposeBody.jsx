@@ -9,11 +9,14 @@ const ComposeBody = () => {
   const [content, setContent] = useState('');
   const [previewContent, setPreviewContent] = useState('');
   const quillRef = useRef(null);
+  const didMountRef = useRef(false);
 
   // Get all selected fields from Redux
   const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
-  // Insert only the latest placeholder into the editor when a new one is added
+
+
+   // Insert only the latest placeholder into the editor when a new one is added
   useEffect(() => {
     const savedContent = localStorage.getItem('htmlContent');
     if (savedContent && quillRef.current) {
@@ -27,30 +30,38 @@ const ComposeBody = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!quillRef.current || selectedFields.length === 0) return;
-  
-    const latestField = selectedFields[selectedFields.length - 1]; // Most recent field
-    const editor = quillRef.current.getEditor();
-    const cursorPosition = editor.getSelection()?.index || editor.getLength();
-  
-    editor.updateContents(
-      {
-        ops: [
-          { retain: cursorPosition },
-          { insert: `{{${latestField.label}}} ` }
-        ]
-      },
-      'user'
-    );
-  
-    editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
-    editor.focus();
-  }, [selectedFields]);
-
-  
+  // Insert only the latest placeholder into the editor when a new one is added
   
 
+ useEffect(() => {
+  if (!quillRef.current || selectedFields.length === 0) return;
+
+  // Skip on first mount to avoid duplicate insertion on reload
+  if (!didMountRef.current) {
+    didMountRef.current = true;
+    return;
+  }
+
+  const latestField = selectedFields[selectedFields.length - 1]; // Most recent field
+  const editor = quillRef.current.getEditor();
+  const cursorPosition = editor.getSelection()?.index || editor.getLength();
+
+  editor.updateContents(
+    {
+      ops: [
+        { retain: cursorPosition },
+        { insert: `{{${latestField.label}}} ` }
+      ]
+    },
+    'user'
+  );
+
+  editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
+  editor.focus();
+}, [selectedFields]);
+
+
+ 
   const handleUndo = () => {
     const editor = quillRef.current?.getEditor();
     if (editor) editor.history.undo();
@@ -74,8 +85,9 @@ const ComposeBody = () => {
 
   const handleEditorChange = (value) => {
     setContent(value);
-    const replaced = replacePlaceholders(value); // your own logic
-    localStorage.setItem("htmlContent", value);
+    const replacedContent = replacePlaceholders(value);
+    setPreviewContent(replacedContent);
+    localStorage.setItem("htmlContent", value); // Save raw content   // Also save to finalHTML here
   };
   
   const modules = {
