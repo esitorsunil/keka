@@ -67,7 +67,7 @@ const DocumentHeader = () => {
                     className={`step-circle ${
                       currentStep === step
                         ? 'bg-indigo-500 text-white'
-                        : 'bg-white text-primary border border-primary'
+                        : 'bg-white  border '
                     }`}
                   >
                     {step}
@@ -90,7 +90,7 @@ const DocumentHeader = () => {
                 <button className="btn btn-light border px-4" onClick={handleCancel}>
                   Back
                 </button>
-                <button className="btn btn-primary px-4" onClick={handleSave}>
+                <button className="btn purple px-4" onClick={handleSave}>
                   Save Template
                 </button>
               </>
@@ -99,7 +99,7 @@ const DocumentHeader = () => {
                 <button className="btn btn-light border px-4" onClick={handleCancel}>
                   Cancel
                 </button>
-                <button className="btn btn-primary px-4" onClick={handleContinue}>
+                <button className="btn purple px-4" onClick={handleContinue}>
                   Continue
                 </button>
               </>

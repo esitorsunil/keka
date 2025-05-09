@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -129,14 +129,14 @@ const ComposeBody = () => {
             <div className="btn-group pe-3" role="group">
               <button
                 type="button"
-                className={`btn ${activeEditor === 'web' ? 'text-primary border-primary bg-body-tertiary ' : 'btn-outline-secondary text-black no-border'}`}
+                className={`btn ${activeEditor === 'web' ? 'color  ' : 'btn-outline-secondary text-black no-border'}`}
                 onClick={() => setActiveEditor('web')}
               >
                 Web Editor
               </button>
               <button
                 type="button"
-                className={`btn ${activeEditor === 'msword' ? 'text-primary border-primary bg-body-tertiary' : 'btn-outline-secondary text-black no-border-left'}`}
+                className={`btn ${activeEditor === 'msword' ? 'color ' : 'btn-outline-secondary text-black no-border-left'}`}
                 onClick={() => setActiveEditor('msword')}
               >
                 MS Word

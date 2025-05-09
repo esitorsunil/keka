@@ -9,11 +9,11 @@
 }
 
 .bg-indigo-500 {
-  background-color: #6366f1 !important; 
+  background-color: #6a5acd !important; 
 }
 
 .bg-indigo-400 {
-  background-color: #818cf8 !important; 
+  background-color: #6a5acd!important; 
 }
 
 .custom-gap {
@@ -68,4 +68,32 @@ span {
   background-color: var(--bs-light);
 }
 
+header {
+  background-color: #6a5acd
+}
 
+.purple {
+  background-color: #6a5acd;
+  color: white;
+}
+
+.purple:hover {
+  background-color: #4b3ea0;
+  color: white;
+}
+
+.color {
+  color: #6a5acd;
+  border: 1px solid #6a5acd;
+  background-color: #eeeef5;
+}
+
+.color:hover {
+  color: #6a5acd;
+  border: 1px solid #6a5acd;
+}
+
+ol.custom-gap .step-circle.bg-white {
+  border-color: #6a5acd !important;
+  color: #6a5acd;
+}
