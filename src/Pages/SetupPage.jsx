@@ -1,12 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DocumentHeader from '../DocumentHeader';
+import DocumentHeader from './DocumentHeader';
 
 const Setup = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+  // Load saved values from localStorage when component mounts
+  useEffect(() => {
+    const savedName = localStorage.getItem('setupName');
+    const savedDescription = localStorage.getItem('setupDescription');
+    if (savedName) setName(savedName);
+    if (savedDescription) setDescription(savedDescription);
+  }, []);
+
+  // Save to localStorage whenever name changes
+  useEffect(() => {
+    localStorage.setItem('setupName', name);
+  }, [name]);
+
+  // Save to localStorage whenever description changes
+  useEffect(() => {
+    localStorage.setItem('setupDescription', description);
+  }, [description]);
 
   const modules = {
     toolbar: {
@@ -54,6 +72,7 @@ const Setup = () => {
                 </span>
               </div>
             </div>
+
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@ const Sidebar = () => {
   return (
     <div
       className="nav-bg text-white  "
-      style={{ width: '150px', minHeight: "100%",
+      style={{ width: '130px', minHeight: "auto",
         overflowY: "auto",}}
     >
 

@@ -99,7 +99,6 @@ ol.custom-gap .step-circle.bg-white {
 }
 
 .nav-link {
-  font-size: 13px;
   color:  #6c757d
 }
 
@@ -115,3 +114,25 @@ ol.custom-gap .step-circle.bg-white {
   background-color: #050536;
 }
 
+
+
+.create-template-btn {
+  background-color: var(--bs-light);
+  color: #7950F2;
+  border: 1px solid #7950F2;
+  font-weight: 500;
+}
+
+.create-template-btn:hover {
+  color: #7950F2;
+  border: 1px solid #430ce8;
+}
+
+.create-template-btn i,
+.create-template-btn span {
+  color: #7950F2;
+}
+
+.text {
+  color: #6a5acd;
+}

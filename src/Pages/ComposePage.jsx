@@ -1,5 +1,5 @@
 import React from 'react';
-import DocumentHeader from '../DocumentHeader';
+import DocumentHeader from './DocumentHeader';
 import ComposeSidebar from './ComposeSideBar';
 import ComposeBody from './ComposeBody';
 import 'bootstrap/dist/css/bootstrap.min.css';
