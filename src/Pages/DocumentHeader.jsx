@@ -1,12 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import html2pdf from 'html2pdf.js'; // at the top
 
 const DocumentHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showToast, setShowToast] = useState(false);
-  const quillRef = useRef(null); // Assuming you have a ref for the Quill editor
+  const quillRef = useRef(null);
 
   const getStepFromPath = (path) => {
     if (path === '/setup') return 1;
@@ -21,70 +22,86 @@ const DocumentHeader = () => {
     if (currentStep === 1) {
       navigate('/compose');
     } else if (currentStep === 2) {
-      // htmlContent already holds replaced HTML
       const htmlContent = localStorage.getItem('htmlContent');
       navigate('/finalize');
     }
   };
 
-  
   const handleCancel = () => {
     const editor = quillRef.current?.getEditor();
     if (editor) {
-      const htmlContent = editor.root.innerHTML; // Get the editor content (HTML with text and placeholders)
-      localStorage.setItem('htmlContent', htmlContent); // Save the content to localStorage
+      const htmlContent = editor.root.innerHTML;
+      localStorage.setItem('htmlContent', htmlContent);
     }
-  
+
     if (currentStep === 1) {
-      navigate('/'); // Navigate to Setup page
+      navigate('/');
     } else if (currentStep === 2) {
-      navigate('/setup'); // Navigate back to Setup
+      navigate('/setup');
     } else if (currentStep === 3) {
-      navigate('/compose'); // Navigate back to Compose
+      navigate('/compose');
     }
   };
 
- const handleSave = () => {
+ const handleSave = async () => {
   const savedTemplate = JSON.parse(localStorage.getItem('documentTemplate'));
+  const finalHTML = localStorage.getItem('finalHTML');
 
-  if (savedTemplate?.name) {
+  if (savedTemplate?.name && finalHTML) {
+    const element = document.createElement('div');
+    element.innerHTML = finalHTML;
+
+    const opt = {
+      margin:       0.5,
+      filename:     `${savedTemplate.name}.pdf`,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    // Get base64 PDF directly
+    const pdfBase64 = await html2pdf().from(element).set(opt).outputPdf('datauristring');
+
     const existingTemplates = JSON.parse(localStorage.getItem('templateList')) || [];
-    
-    // Prevent duplicates
     const isDuplicate = existingTemplates.some(t => t.name === savedTemplate.name);
+
     if (!isDuplicate) {
-      existingTemplates.push({ name: savedTemplate.name });
+      existingTemplates.push({
+        name: savedTemplate.name,
+        pdfData: pdfBase64 // this is the full base64 string with prefix
+      });
       localStorage.setItem('templateList', JSON.stringify(existingTemplates));
     }
 
     setShowToast(true);
     setTimeout(() => {
       setShowToast(false);
-      navigate('/'); // Go to homepage after saving
+      navigate('/');
     }, 2000);
   }
 };
-
-
   return (
     <>
       <div className="shadow bg-body-tertiary rounded" style={{ position: 'sticky', top: 0, zIndex: 1 }}>
-        <div className="d-flex justify-content-between align-items-center border-bottom px-4 py-3">
+        {/* Header Title Row */}
+        <div className="d-flex justify-content-between align-items-center border-bottom px-4 py-3 flex-wrap">
           <h5 className="mb-0 fw-semibold">Document template</h5>
           <i className="bi bi-x-lg fs-5" role="button"></i>
         </div>
 
-        <div className="d-flex justify-content-between align-items-center p-3">
-          <ol className="d-flex list-unstyled m-0 justify-content-center flex-grow-1 custom-gap">
+        {/* Step Progress + Buttons Row */}
+        <div className="d-flex flex-wrap justify-content-between align-items-center p-3">
+          {/* Stepper */}
+          <ol className="d-flex flex-wrap list-unstyled m-0 justify-content-center flex-grow-1 custom-gap">
             {[1, 2, 3].map((step) => {
               const labels = ['SETUP', 'COMPOSE', 'FINALIZE'];
               return (
-                <li key={step} className="d-flex align-items-center gap-2">
+                <li key={step} className="d-flex align-items-center gap-2 me-3 mb-2">
                   <span
                     className={`step-circle ${
                       currentStep === step
                         ? 'bg-indigo-500 text-white'
-                        : 'bg-white  border '
+                        : 'bg-white border'
                     }`}
                   >
                     {step}
@@ -101,7 +118,8 @@ const DocumentHeader = () => {
             })}
           </ol>
 
-          <div className="d-flex gap-3 ml-auto">
+          {/* Buttons */}
+          <div className="d-flex gap-2 mt-3 mt-md-0 ms-auto flex-wrap">
             {currentStep === 3 ? (
               <>
                 <button className="btn btn-light border px-4" onClick={handleCancel}>
@@ -125,6 +143,7 @@ const DocumentHeader = () => {
         </div>
       </div>
 
+      {/* Toast */}
       {showToast && (
         <div className="toast show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert">
           <div className="toast-header">

@@ -14,7 +14,11 @@ const ComposeBody = () => {
   // Get all selected fields from Redux
   const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
-
+  useEffect(() => {
+  if (previewContent) {
+    localStorage.setItem('finalHTML', previewContent);
+  }
+}, [previewContent]);
 
    // Insert only the latest placeholder into the editor when a new one is added
   useEffect(() => {
@@ -46,15 +50,15 @@ const ComposeBody = () => {
   const editor = quillRef.current.getEditor();
   const cursorPosition = editor.getSelection()?.index || editor.getLength();
 
-  editor.updateContents(
-    {
-      ops: [
-        { retain: cursorPosition },
-        { insert: `{{${latestField.label}}} ` }
-      ]
-    },
-    'user'
-  );
+ editor.updateContents(
+  {
+    ops: [
+      { retain: cursorPosition },
+      { insert: `{{${latestField.label}}}` } // ← removed trailing space
+    ]
+  },
+  'user'
+);
 
   editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
   editor.focus();
