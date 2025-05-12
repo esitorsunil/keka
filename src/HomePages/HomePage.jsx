@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import HeaderNav from './HeaderNav';
 import Sidebar from './Sidebar';
-import HeaderNav from '../HeaderNav';
 import { useEffect, useState } from 'react';
 
 const HomePage = () => {
@@ -14,7 +14,7 @@ const HomePage = () => {
     setTemplates(stored);
   }, []);
 
-  const downloadPDF = (name, pdfData) => {
+ const downloadPDF = (name, pdfData) => {
   const link = document.createElement('a');
   link.href = pdfData; // full base64 URI like data:application/pdf;base64,...
   link.download = `${name}.pdf`;
