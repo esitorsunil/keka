@@ -18,17 +18,28 @@ const FinalizePage = () => {
   return (
     <>
       <DocumentHeader />
+
       <style>{`
-        .ql-container { border: none !important; box-shadow: none !important; }
+        .ql-container {
+          border: none !important;
+          box-shadow: none !important;
+        }
       `}</style>
 
-      <div className="d-flex">
-        <div className="flex-grow-1">
+      <div className="d-flex finalize-container">
+        <div className="flex-grow-1 finalize-left">
           <div className="d-flex justify-content-center border-top bg" style={{ padding: '20px 0' }}>
-            <div className="custom-shadow rounded p-2" style={{
-              width: '100%', maxWidth: '1000px', height: '1000px',
-              backgroundColor: 'white', marginTop: '20px', marginBottom: '20px',
-            }}>
+            <div
+              className="custom-shadow rounded p-2"
+              style={{
+                width: '100%',
+                maxWidth: '1000px',
+                height: '1000px',
+                backgroundColor: 'white',
+                marginTop: '20px',
+                marginBottom: '20px',
+              }}
+            >
               <ReactQuill
                 ref={quillRef}
                 theme="snow"
@@ -41,7 +52,7 @@ const FinalizePage = () => {
             </div>
           </div>
         </div>
-        <div style={{ width: '600px' }}></div>
+        <div className="finalize-right" style={{ width: '600px' }}></div>
       </div>
     </>
   );

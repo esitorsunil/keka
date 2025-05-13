@@ -57,7 +57,8 @@ const ComposeSidebar = () => {
   console.log(handleFieldClick)
  
   return (
-    <div className="p-3 border-end" style={{ width: '300px', height: 'auto', overflowY: 'auto', zIndex: 0 }}>
+    <div className="p-3 border-end" style={{ width: '100%', maxWidth: '300px', height: 'auto', overflowY: 'auto', zIndex: 0 }}>
+
       <div className="d-flex justify-content-between align-items-center mt-3">
         <p className="fw-semibold">Placeholder Fields <i className="bi bi-info-circle mb-1 ms-2"></i></p>
       </div>

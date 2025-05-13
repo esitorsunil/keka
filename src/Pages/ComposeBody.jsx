@@ -107,7 +107,8 @@ useEffect(() => {
         `}
       </style>
 
-      <div className="container mt-3" style={{ marginRight: '320px' }}>
+      <div className="container-fluid mt-3 px-3 px-md-5">
+
         <div className="row border-bottom pb-4">
           <div className="col-12 d-flex justify-content-between align-items-center">
             <h3 className="mb-0 ps-3">

@@ -137,7 +137,7 @@ const HomePage = () => {
                 </div>
 
                 {/* Filters */}
-                <div className="d-flex align-items-center flex-wrap ps-2 mt-5">
+                <div className="d-flex align-items-center flex-wrap py-2 m-3 ms-1">
                   <div className="d-flex align-items-center rounded" style={{ minWidth: '200px', cursor: 'pointer' }}>
                     <span className="me-2">Action Type</span>
                     <img width="15" height="15" src="https://img.icons8.com/ios/50/expand-arrow--v2.png" alt="expand" />
