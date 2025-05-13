@@ -20,18 +20,14 @@ const ComposeBody = () => {
 }, [previewContent]);
 
   useEffect(() => {
-    const savedContent = localStorage.getItem('htmlContent');
-    if (savedContent && quillRef.current) {
-      const editor = quillRef.current.getEditor();
-      if (editor) {
-        if (editor.root.innerHTML === '<p><br></p>' || editor.root.innerHTML === '') {
-          editor.root.innerHTML = savedContent;
-        }
-      }
-    }
-  }, []);
+  const savedContent = localStorage.getItem('htmlContent');
+  if (savedContent && quillRef.current) {
+    const editor = quillRef.current.getEditor();
+    editor.clipboard.dangerouslyPasteHTML(0, savedContent);
+  }
+}, []);
 
- useEffect(() => {
+useEffect(() => {
   if (!quillRef.current || selectedFields.length === 0) return;
 
   if (!didMountRef.current) {
@@ -41,21 +37,19 @@ const ComposeBody = () => {
 
   const latestField = selectedFields[selectedFields.length - 1];
   const editor = quillRef.current.getEditor();
-  const cursorPosition = editor.getSelection()?.index || editor.getLength();
 
- editor.updateContents(
-  {
-    ops: [
-      { retain: cursorPosition },
-      { insert: `{{${latestField.label}}}` }
-    ]
-  },
-  'user'
-);
+  // 🔥 Force move to end to avoid <p><br></p>
+  const length = editor.getLength();
+  editor.setSelection(length - 1); // Select just before the last newline
+  const cursorPosition = length - 1;
 
+  // Insert the placeholder inline
+  editor.insertText(cursorPosition, `{{${latestField.label}}} `);
   editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
   editor.focus();
 }, [selectedFields]);
+
+
 
 
  
