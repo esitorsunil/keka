@@ -13,6 +13,9 @@ const ComposeBody = () => {
 
   const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
+
+
+
   useEffect(() => {
   if (previewContent) {
     localStorage.setItem('finalHTML', previewContent);
@@ -43,11 +46,12 @@ useEffect(() => {
   editor.setSelection(length - 1); // Select just before the last newline
   const cursorPosition = length - 1;
 
-  // Insert the placeholder inline
-  editor.insertText(cursorPosition, `{{${latestField.label}}} `);
-  editor.setSelection(cursorPosition + `{{${latestField.label}}} `.length);
+  // Insert the placeholder inline (without curly braces)
+  editor.insertText(cursorPosition, `${latestField.label} `); // Directly use the label without curly braces
+  editor.setSelection(cursorPosition + latestField.label.length);
   editor.focus();
 }, [selectedFields]);
+
 
 
 
@@ -64,22 +68,31 @@ useEffect(() => {
   };
 
   const replacePlaceholders = (htmlContent) => {
-    if (!selectedFields.length) return htmlContent;
+  if (!selectedFields.length) return htmlContent;
 
-    const placeholderRegex = /{{(.*?)}}/g;
-    return htmlContent.replace(placeholderRegex, (_, placeholder) => {
-      const match = selectedFields.find(f => f.label === placeholder.trim());
-      return match ? match.value : `{{${placeholder}}}`;
-    });
-  };
+  // Loop through the selected fields and replace them directly by label (no curly braces involved)
+  let replacedContent = htmlContent;
+  selectedFields.forEach(field => {
+    const placeholderRegex = new RegExp(`\\b${field.label}\\b`, 'g'); // Match the label directly
+    replacedContent = replacedContent.replace(placeholderRegex, field.value); // Replace label with value
+  });
 
-  const handleEditorChange = (value) => {
-    setContent(value);
-    const replacedContent = replacePlaceholders(value);
-    setPreviewContent(replacedContent);
-    localStorage.setItem("htmlContent", value); 
-  };
-  
+  return replacedContent;
+};
+
+ const handleEditorChange = (value) => {
+  setContent(value);
+
+  // Replace placeholders with actual values based on the label
+  const replacedContent = replacePlaceholders(value);
+
+  // Set the preview content with replaced placeholders for display purposes
+  setPreviewContent(replacedContent);
+
+  // Save content to localStorage (without curly braces)
+  localStorage.setItem("htmlContent", value);
+};
+
   const modules = {
     toolbar: {
       container: '#toolbar-container',
@@ -96,7 +109,11 @@ useEffect(() => {
     'list', 'bullet', 'align', 'link', 'image',
   ];
 
+
+  
+
   return (
+    
     <>
       <style>
         {`
@@ -107,7 +124,7 @@ useEffect(() => {
         `}
       </style>
 
-      <div className="container-fluid mt-3 px-3 px-md-5">
+      <div className="container-fluid mt-3">
 
         <div className="row border-bottom pb-4">
           <div className="col-12 d-flex justify-content-between align-items-center">
@@ -117,6 +134,11 @@ useEffect(() => {
                 Use the built-in web editor to compose your document
               </span>
             </h3>
+             <div className="text-center ">
+ <button className="btn btn-primary">
+  Generate AI Letter
+</button>
+</div>
             <div className="btn-group pe-3" role="group">
               <button
                 type="button"
@@ -135,6 +157,7 @@ useEffect(() => {
             </div>
           </div>
         </div>
+        
 
         <div id="toolbar-container" className="d-flex flex-wrap gap-2 p-3 rounded">
           <button className="ql-image"></button>

@@ -1,4 +1,3 @@
-
 const Sidebar = () => {
   const menuItems = [
     { name: 'Home', icon: 'bi-house' },
@@ -9,15 +8,18 @@ const Sidebar = () => {
     { name: 'Org', icon: 'bi-diagram-3' },
     { name: 'Engage', icon: 'bi-chat-left-dots' },
     { name: 'Performance', icon: 'bi-speedometer2' },
-     { name: 'Project', icon: 'bi-kanban' },
+    { name: 'Project', icon: 'bi-kanban' },
     { name: 'Time', icon: 'bi-clock' }
   ];
 
   return (
     <div
-      className="nav-bg text-white d-flex.sidebar-container  "
-      style={{ width: '130px', minHeight: "auto",
-        overflowY: "auto",}}
+      className="nav-bg text-white sidebar-container d-flex flex-column align-items-center"
+      style={{
+        width: '130px',
+        height: '150vh',
+        overflow: 'hidden',
+      }}
     >
       <ul className="nav flex-column flex-sm-column flex-row text-center px-2 w-100 justify-content-around">
   {menuItems.map((item) => (
@@ -27,7 +29,6 @@ const Sidebar = () => {
     </li>
   ))}
 </ul>
-
     </div>
   );
 };

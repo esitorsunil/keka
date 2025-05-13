@@ -19,6 +19,7 @@ const DocumentHeader = () => {
   const currentStep = getStepFromPath(location.pathname);
 
   const handleContinue = () => {
+    
     if (currentStep === 1) {
       navigate('/compose');
     } else if (currentStep === 2) {
@@ -65,23 +66,19 @@ const handleSave = async () => {
 
   const pdfBase64 = await html2pdf().from(element).set(opt).outputPdf('datauristring');
 
-  // Get existing templates from localStorage or initialize an empty array if none exist
   const existingTemplates = JSON.parse(localStorage.getItem('templateList')) || [];
   
-  // Push the new template to the array
   existingTemplates.push({
     name: savedTemplate.name,
     pdfData: pdfBase64,
   });
 
-  // Save updated array back to localStorage
   localStorage.setItem('templateList', JSON.stringify(existingTemplates));
 
-  // Show success toast
   setShowToast(true);
   setTimeout(() => {
     setShowToast(false);
-    navigate('/');  // Navigate to homepage after saving
+    navigate('/');  
   }, 2000);
 };
 
@@ -148,14 +145,23 @@ const handleSave = async () => {
       </div>
 
       {showToast && (
-        <div className="toast show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert">
-          <div className="toast-header">
-            <strong className="me-auto">Success</strong>
-            <button type="button" className="btn-close" onClick={() => setShowToast(false)} />
-          </div>
-          <div className="toast-body">Document saved successfully!</div>
-        </div>
-      )}
+  <div
+    className="toast show position-fixed bottom-0 start-50 translate-middle-x mb-3"
+    role="alert"
+  >
+    <div className="toast-header bg-success text-white border-0">
+      <strong className="me-auto">Success</strong>
+      <button
+        type="button"
+        className="btn-close btn-close-white"
+        onClick={() => setShowToast(false)}
+      />
+    </div>
+    <div className="toast-body">
+      Document saved successfully!
+    </div>
+  </div>
+)}
     </>
   );
 };

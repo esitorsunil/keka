@@ -150,6 +150,8 @@ ol.custom-gap .step-circle.bg-white {
   color: #fff ;
 }
 
+
+
 @media (max-width: 767.98px) {
   .sidebar-left,
   .sidebar-right {
@@ -181,6 +183,10 @@ ol.custom-gap .step-circle.bg-white {
   .finalize-right {
     width: 10%;
   }
+}
+
+.sidebar-container::-webkit-scrollbar {
+  display: none;
 }
 
 

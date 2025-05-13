@@ -8,7 +8,6 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
-  // Load existing values on mount
   useEffect(() => {
     const savedName = localStorage.getItem('setupName');
     const savedDescription = localStorage.getItem('setupDescription');
@@ -16,7 +15,6 @@ const Setup = () => {
     if (savedDescription) setDescription(savedDescription);
   }, []);
 
-  // Save individual fields
   useEffect(() => {
     localStorage.setItem('setupName', name);
   }, [name]);
@@ -25,7 +23,6 @@ const Setup = () => {
     localStorage.setItem('setupDescription', description);
   }, [description]);
 
-  // Save combined template object (so Save Template page can find it)
  useEffect(() => {
   if (name) {
     const template = {

@@ -59,7 +59,6 @@ const HomePage = () => {
         <Sidebar />
 
         <div className="flex-grow-1">
-          {/* Top Menu Tabs */}
           <nav className="position-relative">
             <ul className="nav px-3 py-2 gap-3 shadow-sm">
               {menuItems.map((item) => (
@@ -93,7 +92,6 @@ const HomePage = () => {
               ))}
             </ul>
 
-            {/* Sub Tabs for DOCUMENTS */}
             {activeLink === "DOCUMENTS" && (
               <ul className="nav px-3 py-1 gap-3 mt-2">
                 {documentSubItems.map((subItem) => (
@@ -114,11 +112,9 @@ const HomePage = () => {
             )}
           </nav>
 
-          {/* Page Content */}
           <div className="p-4">
             {activeLink === "DOCUMENTS" && activeSubLink === "Document Template" && (
               <>
-                {/* Header Section */}
                 <div className="d-flex justify-content-between align-items-start mb-4">
                   <div>
                     <h3 className="mb-2">Document Template</h3>
@@ -136,8 +132,7 @@ const HomePage = () => {
                   </button>
                 </div>
 
-                {/* Filters */}
-                <div className="d-flex align-items-center flex-wrap py-2 m-3 ms-1">
+                <div className="d-flex align-items-center flex-wrap py-2 m-3 ms-3 mt-5">
                   <div className="d-flex align-items-center rounded" style={{ minWidth: '200px', cursor: 'pointer' }}>
                     <span className="me-2">Action Type</span>
                     <img width="15" height="15" src="https://img.icons8.com/ios/50/expand-arrow--v2.png" alt="expand" />
@@ -152,8 +147,7 @@ const HomePage = () => {
                   </div>
                 </div>
 
-                {/* Table Headers */}
-                <div className="d-flex justify-content-between align-items-center py-2 m-3 ms-1 fw-semibold" style={{ backgroundColor: '#f8f9fa' }}>
+                <div className="d-flex justify-content-between align-items-center py-2 m-3 ms-3 fw-semibold" style={{ backgroundColor: '#f8f9fa' }}>
                   <div style={{ minWidth: '20%' }}>Document Name</div>
                   <div style={{ minWidth: '20%' }}>Folder</div>
                   <div style={{ minWidth: '20%' }}>Action Type</div>
@@ -161,12 +155,11 @@ const HomePage = () => {
                   <div style={{ minWidth: '20%' }}>Action</div>
                 </div>
 
-                {/* Template Rows */}
                 {templates.length === 0 ? (
                   <p className="ms-4">No templates saved.</p>
                 ) : (
                   templates.map((template, index) => (
-                    <div key={index} className="d-flex justify-content-between align-items-center py-2 m-3 ms-1 position-relative">
+                    <div key={index} className="d-flex justify-content-between align-items-center py-2 m-3 ms-3 position-relative">
                       <div style={{ minWidth: '20%' }} className="fw-semibold text">{template.name}</div>
                       <div style={{ minWidth: '20%' }}>
                         <i className="bi bi-folder2-open me-2"></i>
@@ -219,7 +212,6 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showConfirm && (
         <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog">

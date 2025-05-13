@@ -17,7 +17,6 @@ const ComposePage = () => {
   </div>
 
   <div className="sidebar-right border-start d-none d-lg-block" style={{ width: '300px' }}>
-    {/* Right sidebar (if needed) */}
   </div>
 </div>
     </>
