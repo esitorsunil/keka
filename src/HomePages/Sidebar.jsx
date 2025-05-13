@@ -19,8 +19,6 @@ const Sidebar = () => {
       style={{ width: '130px', minHeight: "auto",
         overflowY: "auto",}}
     >
-
-      {/* Scrollable Sidebar Menu */}
       <ul
         className="nav flex-column text-center px-2 "
        

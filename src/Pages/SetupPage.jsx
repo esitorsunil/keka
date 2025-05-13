@@ -8,7 +8,7 @@ const Setup = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
-  // Load saved values from localStorage when component mounts
+  // Load existing values on mount
   useEffect(() => {
     const savedName = localStorage.getItem('setupName');
     const savedDescription = localStorage.getItem('setupDescription');
@@ -16,15 +16,25 @@ const Setup = () => {
     if (savedDescription) setDescription(savedDescription);
   }, []);
 
-  // Save to localStorage whenever name changes
+  // Save individual fields
   useEffect(() => {
     localStorage.setItem('setupName', name);
   }, [name]);
 
-  // Save to localStorage whenever description changes
   useEffect(() => {
     localStorage.setItem('setupDescription', description);
   }, [description]);
+
+  // Save combined template object (so Save Template page can find it)
+ useEffect(() => {
+  if (name) {
+    const template = {
+      name,
+      description,
+    };
+    localStorage.setItem('documentTemplate', JSON.stringify(template));
+  }
+}, [name, description]);
 
   const modules = {
     toolbar: {
@@ -39,7 +49,6 @@ const Setup = () => {
       <div className="ms-4 mt-4 py-3">
         <div className="d-flex justify-content-start">
           <div style={{ width: '40%' }}>
-
             <div className="mb-4">
               <h5 className="mb-2">Name</h5>
               <input
@@ -60,7 +69,7 @@ const Setup = () => {
                 onChange={setDescription}
                 modules={modules}
                 className="bg-white custom-quill-editor"
-                placeholder="Write your description here..." 
+                placeholder="Write your description here..."
               />
 
               <div id="toolbar" className="border-top-0">

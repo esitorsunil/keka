@@ -1,7 +1,6 @@
 const HeaderNav = () => {
   return (
     <div className="d-flex">
-      {/* Left corner logo section */}
       <div style={{ backgroundColor: '#3d376d', padding: '8px 5px' }}>
         <img
           src="https://d2w2i7rp1a0wob.cloudfront.net/static/images/logos/KekaLogoBlack.svg"
@@ -11,7 +10,6 @@ const HeaderNav = () => {
         />
       </div>
 
-      {/* Main header section */}
       <header
         className="flex-grow-1 d-flex align-items-center justify-content-between px-3"
         style={{ color: 'white', height: '50px' }}

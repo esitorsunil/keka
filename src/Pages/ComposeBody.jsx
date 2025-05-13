@@ -11,7 +11,6 @@ const ComposeBody = () => {
   const quillRef = useRef(null);
   const didMountRef = useRef(false);
 
-  // Get all selected fields from Redux
   const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
   useEffect(() => {
@@ -20,13 +19,11 @@ const ComposeBody = () => {
   }
 }, [previewContent]);
 
-   // Insert only the latest placeholder into the editor when a new one is added
   useEffect(() => {
     const savedContent = localStorage.getItem('htmlContent');
     if (savedContent && quillRef.current) {
       const editor = quillRef.current.getEditor();
       if (editor) {
-        // Only restore content if it's not already there
         if (editor.root.innerHTML === '<p><br></p>' || editor.root.innerHTML === '') {
           editor.root.innerHTML = savedContent;
         }
@@ -34,19 +31,15 @@ const ComposeBody = () => {
     }
   }, []);
 
-  // Insert only the latest placeholder into the editor when a new one is added
-  
-
  useEffect(() => {
   if (!quillRef.current || selectedFields.length === 0) return;
 
-  // Skip on first mount to avoid duplicate insertion on reload
   if (!didMountRef.current) {
     didMountRef.current = true;
     return;
   }
 
-  const latestField = selectedFields[selectedFields.length - 1]; // Most recent field
+  const latestField = selectedFields[selectedFields.length - 1];
   const editor = quillRef.current.getEditor();
   const cursorPosition = editor.getSelection()?.index || editor.getLength();
 
@@ -54,7 +47,7 @@ const ComposeBody = () => {
   {
     ops: [
       { retain: cursorPosition },
-      { insert: `{{${latestField.label}}}` } // ← removed trailing space
+      { insert: `{{${latestField.label}}}` }
     ]
   },
   'user'
@@ -76,7 +69,6 @@ const ComposeBody = () => {
     if (editor) editor.history.redo();
   };
 
-  // Replace all placeholders with matching values
   const replacePlaceholders = (htmlContent) => {
     if (!selectedFields.length) return htmlContent;
 
@@ -91,7 +83,7 @@ const ComposeBody = () => {
     setContent(value);
     const replacedContent = replacePlaceholders(value);
     setPreviewContent(replacedContent);
-    localStorage.setItem("htmlContent", value); // Save raw content   // Also save to finalHTML here
+    localStorage.setItem("htmlContent", value); 
   };
   
   const modules = {

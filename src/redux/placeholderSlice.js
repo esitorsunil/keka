@@ -7,7 +7,6 @@ const placeholdersSlice = createSlice({
   },
   reducers: {
     addField: (state, action) => {
-      // Always push the new field, even if it's already in the array
       state.selectedFields.push(action.payload);
     },
     clearFields: (state) => {
