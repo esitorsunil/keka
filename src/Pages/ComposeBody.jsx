@@ -13,9 +13,6 @@ const ComposeBody = () => {
 
   const selectedFields = useSelector((state) => state.placeholders.selectedFields || []);
 
-
-
-
   useEffect(() => {
   if (previewContent) {
     localStorage.setItem('finalHTML', previewContent);
@@ -41,22 +38,15 @@ useEffect(() => {
   const latestField = selectedFields[selectedFields.length - 1];
   const editor = quillRef.current.getEditor();
 
-  // 🔥 Force move to end to avoid <p><br></p>
   const length = editor.getLength();
-  editor.setSelection(length - 1); // Select just before the last newline
+  editor.setSelection(length - 1);
   const cursorPosition = length - 1;
 
-  // Insert the placeholder inline (without curly braces)
-  editor.insertText(cursorPosition, `${latestField.label} `); // Directly use the label without curly braces
+  editor.insertText(cursorPosition, `${latestField.label} `); 
   editor.setSelection(cursorPosition + latestField.label.length);
   editor.focus();
 }, [selectedFields]);
 
-
-
-
-
- 
   const handleUndo = () => {
     const editor = quillRef.current?.getEditor();
     if (editor) editor.history.undo();
@@ -70,11 +60,10 @@ useEffect(() => {
   const replacePlaceholders = (htmlContent) => {
   if (!selectedFields.length) return htmlContent;
 
-  // Loop through the selected fields and replace them directly by label (no curly braces involved)
   let replacedContent = htmlContent;
   selectedFields.forEach(field => {
-    const placeholderRegex = new RegExp(`\\b${field.label}\\b`, 'g'); // Match the label directly
-    replacedContent = replacedContent.replace(placeholderRegex, field.value); // Replace label with value
+    const placeholderRegex = new RegExp(`\\b${field.label}\\b`, 'g'); 
+    replacedContent = replacedContent.replace(placeholderRegex, field.value); 
   });
 
   return replacedContent;
@@ -83,13 +72,10 @@ useEffect(() => {
  const handleEditorChange = (value) => {
   setContent(value);
 
-  // Replace placeholders with actual values based on the label
   const replacedContent = replacePlaceholders(value);
 
-  // Set the preview content with replaced placeholders for display purposes
   setPreviewContent(replacedContent);
 
-  // Save content to localStorage (without curly braces)
   localStorage.setItem("htmlContent", value);
 };
 
@@ -109,11 +95,7 @@ useEffect(() => {
     'list', 'bullet', 'align', 'link', 'image',
   ];
 
-
-  
-
-  return (
-    
+  return ( 
     <>
       <style>
         {`
@@ -135,7 +117,7 @@ useEffect(() => {
               </span>
             </h3>
              <div className="text-center ">
- <button className="btn btn-primary">
+   <button className="btn btn-primary">
   Generate AI Letter
 </button>
 </div>

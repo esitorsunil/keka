@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { addField } from '../redux/placeholderSlice';
+import Fuse from 'fuse.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ComposeSidebar = () => {
@@ -32,8 +33,6 @@ const ComposeSidebar = () => {
       .then(response => response.json())
       .then(data => {
         setEmployeeData(data);
-
-        // Initialize section data
         const allData = {};
         for (let section in sectionKeyMap) {
           const key = sectionKeyMap[section];
@@ -57,7 +56,6 @@ const ComposeSidebar = () => {
     dispatch(addField({ label, value }));
   };
 
-  // Flatten all fields from all sections for search
   const allFields = Object.entries(sectionData).flatMap(([section, fields]) =>
     Object.entries(fields).map(([key, value]) => ({
       section,
@@ -66,17 +64,30 @@ const ComposeSidebar = () => {
     }))
   );
 
-  // Filter fields based on search term
+  const fuse = new Fuse(allFields, {
+    keys: ['label'],
+    threshold: 0.4, 
+  });
+
   const filteredFields = searchTerm
-    ? allFields.filter(field =>
-        field.label.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+    ? fuse.search(searchTerm).map(result => result.item)
     : [];
 
   return (
-    <div className="p-3 border-end" style={{ width: '100%', maxWidth: '300px', height: 'auto', overflowY: 'auto', zIndex: 0 }}>
+    <div
+      className="p-3 border-end"
+      style={{
+        width: '100%',
+        maxWidth: '300px',
+        height: 'auto',
+        overflowY: 'auto',
+        zIndex: 0
+      }}
+    >
       <div className="d-flex justify-content-between align-items-center mt-3">
-        <p className="fw-semibold">Placeholder Fields <i className="bi bi-info-circle mb-1 ms-2"></i></p>
+        <p className="fw-semibold">
+          Placeholder Fields <i className="bi bi-info-circle mb-1 ms-2"></i>
+        </p>
       </div>
 
       <div className="input-group mb-4">
@@ -96,13 +107,13 @@ const ComposeSidebar = () => {
         style={{
           borderBottom: '1px solid var(--bs-border-color-translucent)',
           backgroundColor: 'var(--bs-secondary-bg)'
-        }}>
+        }}
+      >
         <p className="text-xs fw-semibold m-0" style={{ fontSize: '12px' }}>
           AUTO COMPLETE FIELDS <i className="bi bi-info-circle ms-2"></i>
         </p>
       </div>
 
-      {/* Show filtered results if searching */}
       {searchTerm && filteredFields.length > 0 && (
         <div className="ps-2">
           {filteredFields.map((field, idx) => (
@@ -122,7 +133,6 @@ const ComposeSidebar = () => {
         </div>
       )}
 
-      {/* Default section-wise display when no search */}
       {!searchTerm && fieldSections.map((section, index) => {
         const currentSectionData = sectionData[section];
 
